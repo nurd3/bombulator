@@ -36,4 +36,6 @@ core.register_on_mods_loaded(function()
             minetest.log("warning", "[MOD] bombulator unsupports mod: " .. modname)
         end
     end
+
+    bombulator.begin()
 end)
