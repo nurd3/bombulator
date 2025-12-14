@@ -1,4 +1,4 @@
-local path = ecosystem.get_modpath
+local path = bombulator.get_modpath
 local gamedata = core.get_game_info()
 
 -- util function for checking if file exists
