@@ -30,3 +30,7 @@ end
 function bombulator.random_node()
     return random_key(bombulator.registered_nodes, chance_check)
 end
+
+function bombulator.random_sound()
+    return random_key(bombulator.registered_sounds, chance_check)
+end
