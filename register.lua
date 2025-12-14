@@ -1,0 +1,89 @@
+bombulator.registered_bombulations = {}
+bombulator.registered_entities = {}
+bombulator.registered_items = {}
+bombulator.registered_nodes = {}
+bombulator.registered_sounds = {}
+
+-- stfu complexity calculator
+
+--- sorts a name into bombulator's registries based off of which core registry it's registered to.
+--- priority goes:
+--- 1. registered_entities
+--- 2. registered_items
+--- 3. registered_nodes
+local function sort_name(name, def)
+    if core.registered_entities[name] then
+        bombulator.registered_entities[name] = def
+    elseif core.registered_items[name] then
+        bombulator.registered_items[name] = def
+    elseif core.registered_nodes[name] then
+        bombulator.registered_nodes[name] = def
+    else
+        error("bombulator.register_names(): unknown name \"" .. name .. "\"")
+    end
+end
+
+function bombulator.register_bombulation(name, def)
+    if type(name) ~= "string" then error("bombulator.register_bombulation(): got non-string name") end
+    if type(def) ~= "table" then error("bombulator.register_bombulation(): got non-table definition") end
+
+    bombulator.registered_bombulations[name] = def
+end
+
+function bombulator.register_names(registry)
+    for name, def in registry do
+        local name = core.registered_aliases[name] or name
+
+        if type(name) ~= "string" then error("bombulator.register_names(): got non-string name") end
+        if type(def) ~= "table" then error("bombulator.register_names(): got non-table definition") end
+
+        sort_name(name, def)
+    end
+end
+
+function bombulator.register_entities(registry)
+    for name, def in registry do
+        local name = core.registered_aliases[name] or name
+
+        if type(name) ~= "string" then error("bombulator.register_entities(): got non-string name") end
+        if type(def) ~= "table" then error("bombulator.register_entities(): got non-table definition") end
+        if not core.registered_entities[name] then error("bombulator.register_entities(): unknown entity \"" .. name .. "\"") end
+
+        bombulator.registered_entities[name] = def
+    end
+end
+
+function bombulator.register_items(registry)
+    for name, def in registry do
+        local name = core.registered_aliases[name] or name
+
+        if type(name) ~= "string" then error("bombulator.register_items(): got non-string name") end
+        if type(def) ~= "table" then error("bombulator.register_items(): got non-table definition") end
+        if not core.registered_items[name] then error("bombulator.register_items(): unknown item \"" .. name .. "\"") end
+
+        bombulator.registered_items[name] = def
+    end
+end
+
+function bombulator.register_nodes(registry)
+    for name, def in registry do
+        local name = core.registered_aliases[name] or name
+
+        if type(name) ~= "string" then error("bombulator.register_nodes(): got non-string name") end
+        if type(def) ~= "table" then error("bombulator.register_nodes(): got non-table definition") end
+        if not core.registered_nodes[name] then error("bombulator.register_nodes(): unknown node \"" .. name .. "\"") end
+
+        bombulator.registered_nodes[name] = def
+    end
+end
+
+function bombulator.register_sounds(registry)
+    for name, def in registry do
+        local name = core.registered_aliases[name] or name
+
+        if type(name) ~= "string" then error("bombulator.register_sounds(): got non-string name") end
+        if type(def) ~= "table" then error("bombulator.register_sounds(): got non-table definition") end
+
+        bombulator.registered_sounds[name] = def
+    end
+end
