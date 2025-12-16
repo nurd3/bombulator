@@ -1,4 +1,4 @@
-local path = bombulator.compat_path
+local path = optional_depends.current_path
 
 dofile (path .. "/sounds.lua")
 dofile (path .. "/scaredodes.lua")
