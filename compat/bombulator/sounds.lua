@@ -7,7 +7,7 @@ end
 
 bombulator.register_bombulation("bombulator:fart", {
     interval = 5,
-    func = bombulator.sound_play {
+    per_player = bombulator.sound_play {
         name = "bombulator_fart",
         gain = 0.2
     }
@@ -15,7 +15,7 @@ bombulator.register_bombulation("bombulator:fart", {
 
 bombulator.register_bombulation("bombulator:bombulator_name", {
     interval = 30,
-    func = bombulator.sound_play {
+    per_player = bombulator.sound_play {
         name = "bombulator_bombulator_name",
         gain = 0.2
     }

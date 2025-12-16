@@ -11,31 +11,16 @@ local function file_exists(name)
     return true
 end
 
-core.register_on_mods_loaded(function()
-    -- error handling
-    if gamedata and gamedata.id then
-        local src = path .. "/compat/games/" .. gamedata.id .. "/init.lua"
-        -- game is supported?
-        if file_exists(src) then
-            bombulator.compat_path = path .. "/compat/games/" .. gamedata.id
-            dofile(src)
-        else
-            core.log("warning", "[MOD] bombulator unsupports game: " .. gamedata.id)
-        end
-    else    -- theoretically this message shouldn't show up
-        core.log("warning", "[MOD] bombuwtf (invalid game data)")
+for _, modname in ipairs(core.get_modnames()) do
+    local src = path.."/compat/" .. modname .. "/init.lua"
+    -- game is supported?
+    if file_exists(src) then
+        core.log("info", "[MOD] bombulator supported mod: " .. modname)
+        bombulator.compat_path = path .. "/compat/" .. modname
+        dofile(src)
+    else
+        core.log("warning", "[MOD] bombulator unsupports mod: " .. modname)
     end
+end
 
-    for _, modname in ipairs(core.get_modnames()) do
-        local src = path.."/compat/mods/" .. modname .. "/init.lua"
-        -- game is supported?
-        if file_exists(src) then
-            bombulator.compat_path = path .. "/compat/mods/" .. modname
-            dofile(src)
-        else
-            core.log("warning", "[MOD] bombulator unsupports mod: " .. modname)
-        end
-    end
-
-    bombulator.begin()
-end)
+bombulator.begin()
