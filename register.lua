@@ -71,7 +71,7 @@ function bombulator.register_nodes(registry)
 
         if type(name) ~= "string" then error("bombulator.register_nodes(): got non-string name") end
         if type(def) ~= "table" then error("bombulator.register_nodes(): got non-table definition") end
-        if not core.registered_nodes[name] then error("bombulator.register_nodes(): unknown node \"" .. name .. "\"") end
+        if not core.registered_nodes[name] then core.log("error", "bombulator.register_nodes(): unknown node \"" .. name .. "\"") end
 
         bombulator.registered_nodes[name] = def
     end
