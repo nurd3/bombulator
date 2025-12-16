@@ -19,7 +19,7 @@ local function sort_name(name, def)
     elseif core.registered_nodes[name] then
         bombulator.registered_nodes[name] = def
     else
-        error("bombulator.register_names(): unknown name \"" .. name .. "\"")
+        core.log("error", "bombulator.register_names(): unknown name \"" .. name .. "\"")
     end
 end
 
@@ -47,7 +47,7 @@ function bombulator.register_entities(registry)
 
         if type(name) ~= "string" then error("bombulator.register_entities(): got non-string name") end
         if type(def) ~= "table" then error("bombulator.register_entities(): got non-table definition") end
-        if not core.registered_entities[name] then error("bombulator.register_entities(): unknown entity \"" .. name .. "\"") end
+        if not core.registered_entities[name] then core.log("error", "bombulator.register_entities(): unknown entity \"" .. name .. "\"") end
 
         bombulator.registered_entities[name] = def
     end
@@ -59,7 +59,7 @@ function bombulator.register_items(registry)
 
         if type(name) ~= "string" then error("bombulator.register_items(): got non-string name") end
         if type(def) ~= "table" then error("bombulator.register_items(): got non-table definition") end
-        if not core.registered_items[name] then error("bombulator.register_items(): unknown item \"" .. name .. "\"") end
+        if not core.registered_items[name] then core.log("error", "bombulator.register_items(): unknown item \"" .. name .. "\"") end
 
         bombulator.registered_items[name] = def
     end
