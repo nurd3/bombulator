@@ -18,7 +18,8 @@ local function bombulation_loop(bombuname)
         
         for _, playername in ipairs(core.get_connected_players()) do
             if math.random() < inverse_interval then
-                func(core.get_player_by_name(playername), local_memory, global_memory[bombuname])
+                local_memory[playername] = local_memory[playername] or {}
+                func(core.get_player_by_name(playername), local_memory[playername], global_memory[bombuname])
             end
         end
 
