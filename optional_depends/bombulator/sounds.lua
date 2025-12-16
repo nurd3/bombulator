@@ -21,7 +21,7 @@ bombulator.register_bombulation("bombulator:bombulator_name", {
     }
 })
 
-local spatial_sound_range = 16.0
+local spatial_sound_range = 64.0
 
 function bombulator.spatial_sound(origin, playername)
     local pos = vector.round(origin + vector.random_direction() * math.random() * spatial_sound_range)
