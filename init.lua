@@ -11,3 +11,5 @@ dofile (path .. "/bombulation.lua")
 dofile (path .. "/cheating.lua")
 dofile (path .. "/functions.lua")
 dofile (path .. "/compat/compat.lua")
+
+optional_dependencies.include()
