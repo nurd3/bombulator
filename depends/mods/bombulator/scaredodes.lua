@@ -9,6 +9,7 @@ local function on_activate(self, data)
     self._node = statdat.node
     self._speed = statdat.speed
     self._timer = statdat.timer or math.max(scaredodes_timer_min, scaredodes_timer_max)
+    self._meta = statdat.meta or {}
 
     if not self._node or not self._speed then self.object:remove() return end
 
@@ -50,26 +51,18 @@ local function on_step(self, dtime, moveresult)
     end
 end
 
-local function get_staticdata(self)
-    return core.serialize({ node = self._node, speed = self._speed, timer = self._timer })
-end
-
 local function on_punch(self, puncher)
-    local wielded_item = puncher and puncher:get_wielded_item()
     local pos = vector.round(self.object:get_pos())
-    local drops = self._node and core.get_node_drops(
-        self._node,
-        wielded_item:get_name(),
-        wielded_item,
-        puncher,
-        pos
-    )
+    local node = self._node
 
-    for _, stack in ipairs(drops) do
-        core.add_item(pos, stack)
-    end
+    core.set_node(pos, node)
+    core.get_meta(pos):from_table(self._meta)
 
     self.object:remove()
+end
+
+local function get_staticdata(self)
+    return core.serialize({ node = self._node, speed = self._speed, timer = self._timer, meta = self._meta })
 end
 
 core.register_entity("bombulator:scaredodes", {
@@ -85,10 +78,11 @@ local player_speed = core.settings:get("movement_speed_walk") or 4.0
 
 function bombulator.add_fake_node(pos, speed_mult, node)
     local node = node or core.get_node(pos)
+    local node_meta = core.get_meta(pos):to_table()
 
     core.set_node(pos, { name = "air" })
 
-    local ref = core.add_entity(pos, "bombulator:scaredodes", core.serialize({ node = node, speed = player_speed * speed_mult }))
+    local ref = core.add_entity(pos, "bombulator:scaredodes", core.serialize({ node = node, speed = player_speed * speed_mult, meta = node_meta }))
     local ent = ref:get_luaentity()
 
     return ref
