@@ -20,20 +20,20 @@ core.register_on_mods_loaded(function()
             bombulator.compat_path = path .. "/compat/games/" .. gamedata.id
             dofile(src)
         else
-            minetest.log("warning", "[MOD] bombulator unsupports game: " .. gamedata.id)
+            core.log("warning", "[MOD] bombulator unsupports game: " .. gamedata.id)
         end
     else    -- theoretically this message shouldn't show up
-        minetest.log("warning", "[MOD] bombuwtf (invalid game data)")
+        core.log("warning", "[MOD] bombuwtf (invalid game data)")
     end
 
     for _, modname in ipairs(core.get_modnames()) do
         local src = path.."/compat/mods/" .. modname .. "/init.lua"
         -- game is supported?
         if file_exists(src) then
-            bombulator.compat_path = path .. "/compat/mods/" .. gamedata.id
+            bombulator.compat_path = path .. "/compat/mods/" .. modname
             dofile(src)
         else
-            minetest.log("warning", "[MOD] bombulator unsupports mod: " .. modname)
+            core.log("warning", "[MOD] bombulator unsupports mod: " .. modname)
         end
     end
 

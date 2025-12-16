@@ -31,7 +31,7 @@ function bombulator.register_bombulation(name, def)
 end
 
 function bombulator.register_names(registry)
-    for name, def in registry do
+    for name, def in pairs(registry) do
         local name = core.registered_aliases[name] or name
 
         if type(name) ~= "string" then error("bombulator.register_names(): got non-string name") end
@@ -42,7 +42,7 @@ function bombulator.register_names(registry)
 end
 
 function bombulator.register_entities(registry)
-    for name, def in registry do
+    for name, def in pairs(registry) do
         local name = core.registered_aliases[name] or name
 
         if type(name) ~= "string" then error("bombulator.register_entities(): got non-string name") end
@@ -54,7 +54,7 @@ function bombulator.register_entities(registry)
 end
 
 function bombulator.register_items(registry)
-    for name, def in registry do
+    for name, def in pairs(registry) do
         local name = core.registered_aliases[name] or name
 
         if type(name) ~= "string" then error("bombulator.register_items(): got non-string name") end
@@ -66,7 +66,7 @@ function bombulator.register_items(registry)
 end
 
 function bombulator.register_nodes(registry)
-    for name, def in registry do
+    for name, def in pairs(registry) do
         local name = core.registered_aliases[name] or name
 
         if type(name) ~= "string" then error("bombulator.register_nodes(): got non-string name") end
@@ -78,7 +78,7 @@ function bombulator.register_nodes(registry)
 end
 
 function bombulator.register_sounds(registry)
-    for name, def in registry do
+    for name, def in pairs(registry) do
         local name = core.registered_aliases[name] or name
 
         if type(name) ~= "string" then error("bombulator.register_sounds(): got non-string name") end
