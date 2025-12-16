@@ -58,3 +58,46 @@ bombulator.register_nodes {
 
     ["default:cloud"] = { chance = 1.0 },
 }
+
+bombulator.register_sounds {
+    ["default_break_glass"] = { chance = 1.0 },
+    
+    ["default_chest_close"] = { chance = 1.0 },
+    ["default_chest_open"] = { chance = 1.0 },
+    ["default_furnace_active"] = { chance = 1.0 },
+
+    ["default_cool_lava"] = { chance = 1.0 },
+
+    ["default_dig_choppy"] = { chance = 1.0 },
+    ["default_dig_cracky"] = { chance = 1.0 },
+    ["default_dig_crumbly"] = { chance = 1.0 },
+    ["default_dig_dig_immediate"] = { chance = 1.0 },
+    ["default_dig_metal"] = { chance = 1.0 },
+    ["default_dig_oddly_breakable_by_hand"] = { chance = 1.0 },
+    ["default_dig_snappy"] = { chance = 1.0 },
+    ["default_gravel_dig"] = { chance = 1.0 },
+    ["default_ice_dig"] = { chance = 1.0 },
+
+    ["default_dug_metal"] = { chance = 1.0 },
+    ["default_dug_node"] = { chance = 1.0 },
+    ["default_gravel_dug"] = { chance = 1.0 },
+    ["default_ice_dug"] = { chance = 1.0 },
+
+    ["default_dirt_footstep"] = { chance = 1.0 },
+    ["default_hard_footstep"] = { chance = 1.0 },
+    ["default_glass_footstep"] = { chance = 1.0 },
+    ["default_grass_footstep"] = { chance = 1.0 },
+    ["default_gravel_footstep"] = { chance = 1.0 },
+    ["default_ice_footstep"] = { chance = 1.0 },
+    ["default_metal_footstep"] = { chance = 1.0 },
+    ["default_sand_footstep"] = { chance = 1.0 },
+    ["default_snow_footstep"] = { chance = 1.0 },
+    ["default_water_footstep"] = { chance = 1.0 },
+    ["default_wood_footstep"] = { chance = 1.0 },
+
+    ["default_place_node"] = { chance = 1.0 },
+    ["default_place_node_hard"] = { chance = 1.0 },
+    ["default_place_node_metal"] = { chance = 1.0 },
+
+    ["default_tool_breaks"] = { chance = 1.0 },
+}
