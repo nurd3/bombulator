@@ -2,6 +2,8 @@ local breakdown_range = 20
 
 function bombulator.breakdown(origin, speed_mult_min, speed_mult_max)
 
+    core.log("info", "bombulator.breakdown")
+
     for _ = 1, breakdown_range * 2 do
         local pos = vector.round(origin + vector.random_direction() * math.random() * breakdown_range)
         local node = core.get_node(pos)
