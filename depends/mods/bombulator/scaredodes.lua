@@ -1,3 +1,6 @@
+local scaredodes_timer_min = 1.0
+local scaredodes_timer_max = 15.0
+
 local function on_activate(self, data)
     local statdat = core.deserialize(data)
 
@@ -5,6 +8,7 @@ local function on_activate(self, data)
 
     self._node = statdat.node
     self._speed = statdat.speed
+    self._timer = statdat.timer or math.max(scaredodes_timer_min, scaredodes_timer_max)
 
     if not self._node or not self._speed then self.object:remove() return end
 
@@ -18,12 +22,24 @@ local function on_activate(self, data)
     self._index = 1
 end
 
-local function on_step(self, dtime)
+local function on_step(self, dtime, moveresult)
     local pos = self.object:get_pos()
+    local node_below = core.get_node(vector.round(vector.offset(pos, 0, -0.5, 0)))
     local next_pos = self._path and self._index and self._path[self._index]
 
-    if next_pos then
-        self.object:set_velocity(vector.direction(pos, next_pos) * self._speed, true)
+    self._timer = self._timer - dtime
+
+    if self._timer < 0.0 then
+        self.object:remove()
+        core.set_node(vector.round(pos), self._node)
+        return
+    end
+
+    if node_below.name == "air" or node_below.name == "ignore" then
+        self.object:add_velocity(vector.new(0, -9.8, 0) * dtime)
+    elseif next_pos then
+        local dir = vector.direction(pos, next_pos)
+        self.object:set_velocity(dir * self._speed, true)
         if vector.distance(pos, next_pos) < 0.5 then
             self._index = (self._index or 0) + 1
         end
@@ -35,7 +51,7 @@ local function on_step(self, dtime)
 end
 
 local function get_staticdata(self)
-    return core.serialize({ node = self._node, speed = self._speed })
+    return core.serialize({ node = self._node, speed = self._speed, timer = self._timer })
 end
 
 local function on_punch(self, puncher)
@@ -57,6 +73,7 @@ local function on_punch(self, puncher)
 end
 
 core.register_entity("bombulator:scaredodes", {
+    stepheight = 0.5,
     visual = "node",
     on_activate = on_activate,
     on_step = on_step,

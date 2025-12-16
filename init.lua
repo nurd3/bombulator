@@ -11,4 +11,4 @@ dofile (path .. "/bombulation.lua")
 dofile (path .. "/cheating.lua")
 dofile (path .. "/functions.lua")
 
-optional_depends.include()
+deploader.load_depends()
