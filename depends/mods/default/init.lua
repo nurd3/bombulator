@@ -57,6 +57,11 @@ bombulator.register_nodes {
     ["default:coral_skeleton"] = { chance = 1.0 },
 
     ["default:cloud"] = { chance = 1.0 },
+
+    ["default:furnace"] = { chance = 0.5 },
+
+    ["default:chest"] = { chance = 0.5 },
+    ["default:chest_locked"] = { chance = 1.0 },
 }
 
 bombulator.register_sounds {
