@@ -9,20 +9,18 @@ local function bombulation_loop(bombuname, playername)
     local def = bombulator.registered_bombulations[bombuname]
     local interval = def.interval or default_interval
     local inverse_interval = 0.125 / interval
-    local func = def.func or default_func
+    local func = def.per_player or default_func
     local local_memory = {}
 
     local timeout = function(self)
         core.log("info", "timeout()")
         
         if math.random() < inverse_interval then
-        
             local player = core.get_player_by_name(playername)
 
             if not player then return end
 
             func(player, local_memory, global_memory[bombuname])
-
         end
 
         core.after(0.125, self, self)
