@@ -1,4 +1,4 @@
-local path = optional_depends.current_path
+local path = deploader.current_path
 
 dofile (path .. "/sounds.lua")
 dofile (path .. "/scaredodes.lua")
