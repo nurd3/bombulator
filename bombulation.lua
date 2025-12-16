@@ -38,7 +38,7 @@ function bombulator.begin()
     end
 end
 
-local function joinplayer()
+local function mods_loaded()
     core.log("info", "mods_loaded()")
     for name, _ in pairs(bombulator.registered_bombulations) do
         core.log("info", name)
