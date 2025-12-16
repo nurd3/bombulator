@@ -66,8 +66,8 @@ core.register_entity("bombulator:scaredodes", {
 
 local player_speed = core.settings:get("movement_speed_walk") or 4.0
 
-function bombulator.add_fake_node(pos, speed_mult)
-    local node = core.get_node(pos)
+function bombulator.add_fake_node(pos, speed_mult, node)
+    local node = node or core.get_node(pos)
 
     core.set_node(pos, { name = "air" })
 
