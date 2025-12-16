@@ -6,15 +6,15 @@ function bombulator.sound_play(spec)
 end
 
 bombulator.register_bombulation("bombulator:fart", {
-    interval = 15.0,
+    interval = 30.0,
     per_player = bombulator.sound_play {
         name = "bombulator_fart",
-        gain = 0.2
+        gain = 0.1
     }
 })
 
 bombulator.register_bombulation("bombulator:bombulator_name", {
-    interval = 30.0,
+    interval = 60.0,
     per_player = bombulator.sound_play {
         name = "bombulator_bombulator_name",
         gain = 0.2
@@ -29,13 +29,12 @@ function bombulator.spatial_sound(origin, playername)
     core.sound_play(bombulator.random_sound(), {
         to_player = playername,
         pos = pos,
-        gain = 0.2
-
+        gain = 0.5
     })
 end
 
 bombulator.register_bombulation("bombulator:spatial_sound", {
-    interval = 30.0,
+    interval = 15.0,
     per_player = function(player)
         bombulator.spatial_sound(player:get_pos(), player:get_player_name())
     end
