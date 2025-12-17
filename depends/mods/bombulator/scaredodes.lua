@@ -34,6 +34,7 @@ local function on_step(self, dtime, moveresult)
     if self._timer < 0.0 then
         self.object:remove()
         core.set_node(vector.floor(pos), self._node)
+        core.get_meta(pos):from_table(self._meta)
         return
     end
 
