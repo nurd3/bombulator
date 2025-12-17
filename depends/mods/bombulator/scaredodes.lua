@@ -25,33 +25,38 @@ end
 
 local function on_step(self, dtime, moveresult)
     local pos = self.object:get_pos()
-    local node_below = core.get_node(vector.round(vector.offset(pos, 0, -0.5, 0)))
+    local below = core.get_node(vector.floor(vector.offset(pos, 0, -0.5, 0)))
+    local below_def = core.registered_nodes[below.name]
     local next_pos = self._path and self._index and self._path[self._index]
 
     self._timer = self._timer - dtime
 
     if self._timer < 0.0 then
         self.object:remove()
-        core.set_node(vector.round(pos), self._node)
+        core.set_node(vector.floor(pos), self._node)
         return
     end
 
-    if node_below.name == "air" or node_below.name == "ignore" then
-        self.object:add_velocity(vector.new(0, -9.8, 0) * dtime)
-    elseif next_pos then
-        local dir = vector.direction(pos, next_pos)
-        self.object:set_velocity(dir * self._speed, true)
-        if vector.distance(pos, next_pos) < 0.5 then
-            self._index = (self._index or 0) + 1
+    if below_def and below_def.walkable then 
+        if next_pos then
+            local dir = vector.direction(pos, next_pos)
+            self.object:set_velocity(dir * self._speed)
+            if vector.distance(pos, next_pos) < 0.5 then
+                self._index = (self._index or 0) + 1
+            end
+        else
+            local goal = pos + vector.random_direction() * 8 * math.random()
+            if core.get_node(vector.floor(goal)).name == "air" then
+                self._path = core.find_path(pos, goal, 128, 1, 1)
+                self._index = 1
+            end
+            self.object:set_velocity(vector.zero())
         end
-    else
-        local goal = pos + vector.random_direction() * 8 * math.random()
-        self._path = core.find_path(pos, goal, 128, 1, 1)
-        self._index = 1
-    end
+    else self.object:add_velocity(vector.new(0, -9.8, 0) * dtime) end
 end
 
-local function on_punch(self, puncher)
+local function on_punch(self, puncher, _, tool_capabilities)
+    local wielded_item = puncher:get_wielded_item()
     local pos = vector.round(self.object:get_pos())
     local node = self._node
 
@@ -59,6 +64,16 @@ local function on_punch(self, puncher)
     core.get_meta(pos):from_table(self._meta)
 
     self.object:remove()
+
+    if wielded_item and tool_capabilities then
+        local wear = wielded_item:get_wear()
+        local params = core.get_hit_params({}, tool_capabilities)
+
+        wielded_item:set_wear(wear - params.wear) 
+        puncher:set_wielded_item(wielded_item)
+    end
+
+    return true
 end
 
 local function get_staticdata(self)
