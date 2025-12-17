@@ -21,7 +21,7 @@ function bombulator.big_trap(origin, speed_mult_min, speed_mult_max, velocity)
 end
 
 bombulator.register_bombulation("bombulator:big_trap", {
-    interval = 150.0,
+    interval = 180.0,
     per_player = function(player)
         bombulator.big_trap(player:get_pos(), 0.5, 2.0, player:get_velocity())
     end
