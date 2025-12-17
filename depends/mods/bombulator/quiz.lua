@@ -6,7 +6,7 @@ local arithmetic_min = 0
 local arithmetic_max = 10
 local arithmetic_operations = {"+", "-"}
 
-local function arithmetic_question()
+local function arithmetic()
     local lhs, rhs = random(arithmetic_min, arithmetic_max), random(arithmetic_min, arithmetic_max)
     local operator = arithmetic_operations[random(1, 2)]
     local answer
@@ -43,12 +43,25 @@ local trivia_questions = {
         question = S"When did the 21st century begin?",
         answers = {
             "2000",
+            "'00",
             "00"
+        }
+    },
+    {
+        question = S"When did the year 1999 start?",
+        answers = {
+            "99",
+            "'99",
+            "1999",
+            "january 1st",
+            "1st january",
+            "1st of january",
+            "01/01",
         }
     }
 }
 
-local function trivia_question()
+local function trivia()
     table.shuffle(trivia_questions)
     return trivia_questions[1]
 end
@@ -69,7 +82,7 @@ function bombulator.show_quiz_formspec(playername, quiz)
     ]] .. fmt("label[0.25,0.5;%s]", core.formspec_escape(quiz.question)))
 end
 
-local quiz_generators = {arithmetic_question, trivia_question}
+local quiz_generators = {arithmetic, trivia}
 
 function bombulator.random_quiz()
     table.shuffle(quiz_generators)
