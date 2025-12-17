@@ -112,8 +112,6 @@ core.register_on_player_receive_fields(function(player, formname, fields)
     local playername = player:get_player_name()
     local response = fields.response and string.lower(string.trim(fields.response))
 
-    core.log(dump(response))
-
     if is_answer(playername, response) then
         core.chat_send_player(playername, core.colorize("#00ff00", S"Correct answer! You get to keep playing!"))
         core.close_formspec(playername, "bombulator:quiz")
