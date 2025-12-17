@@ -142,7 +142,6 @@ function bombulator.show_quiz_formspec(playername, quiz)
         formspec_version[4]
         size[8,8]
         position[0.5,0.5]
-        allow_close[false]
         no_prepend[]
     ]]
     .. fmt([[
