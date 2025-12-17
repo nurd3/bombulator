@@ -4,7 +4,7 @@ function bombulator.breakdown(origin, speed_mult_min, speed_mult_max)
 
     core.log("info", "bombulator.breakdown")
 
-    for _ = 1, breakdown_range * 2 do
+    for _ = 1, breakdown_range * breakdown_range do
         local pos = vector.round(origin + vector.random_direction() * math.random() * breakdown_range)
         local node = core.get_node(pos)
         local speed_mult = math.random(speed_mult_min, speed_mult_max)
@@ -24,7 +24,7 @@ end
 
 
 bombulator.register_bombulation("bombulator:breakdown", {
-    interval = 300,
+    interval = 240,
     per_player = function(player)
         local speed_mult = player:get_physics_override().speed * player:get_physics_override().speed_walk
 
