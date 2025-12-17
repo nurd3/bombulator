@@ -20,7 +20,7 @@ function bombulator.random_bombulation()
 end
 
 function bombulator.random_entity()
-    return random_key(bombulator.register_entities, chance_check)
+    return random_key(bombulator.registered_entities, chance_check)
 end
 
 function bombulator.random_item()
