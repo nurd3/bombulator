@@ -53,7 +53,7 @@ local function random_key(tbl)
 end
 
 function bombulator.node_sound(origin, playername)
-    for _ = 1, node_sound_range * 4 do
+    for _ = 1, node_sound_range * node_sound_range do
         local pos = vector.round(origin + vector.random_direction() * math.random() * node_sound_range)
         local node_name = core.get_node(pos).name
         local sounds = core.registered_nodes[node_name] and core.registered_nodes[node_name].sounds
