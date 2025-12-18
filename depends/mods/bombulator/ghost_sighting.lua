@@ -67,10 +67,14 @@ local function on_step(self, dtime, moveresult)
     if self._behaviour.on_step then self._behaviour.on_step(self, dtime, moveresult, observer) end
 end
 
-local function on_punch(self, puncher, _, tool_capabilities)
+local function on_deactivate(self, removal)
+    if self._behaviour.on_deactivate then self._behaviour.on_deactivate(self, removal) end
+end
+
+local function on_punch(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
     local wielded_item = puncher:get_wielded_item()
 
-    self.object:remove()
+    if self._behaviour.on_punch then self._behaviour.on_punch(self, puncher, time_from_last_punch, tool_capabilities, dir, damage) end
 
     if wielded_item and tool_capabilities then
         local wear = wielded_item:get_wear()
@@ -112,6 +116,7 @@ core.register_entity("bombulator:ghost", {
 
     get_staticdata = get_staticdata,
     on_activate = on_activate,
+    on_deactivate = on_deactivate,
     on_punch = on_punch,
     on_step = on_step,
 })
