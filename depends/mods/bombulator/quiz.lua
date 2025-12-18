@@ -2,6 +2,10 @@ local random = math.random
 local fmt = string.format
 local S = bombulator.get_translator
 
+----------
+-- MATH --
+----------
+
 local arithmetic_min = 0
 local arithmetic_max = 10
 local arithmetic_operations = {"+", "-"}
@@ -25,6 +29,33 @@ local function arithmetic()
         }
     }
 end
+
+local select_minmax_minimum = -99
+local select_minmax_maximum = 99
+
+local function select_minmax()
+    local a, b, c = 
+        random(select_minmax_minimum, select_minmax_maximum),
+        random(select_minmax_minimum, select_minmax_maximum),
+        random(select_minmax_minimum, select_minmax_maximum)
+    if math.random(2) == 1 then
+        return {
+            question = S"label[0.25,0.5;Which of the 3 numbers below is the smallest?]",
+            answer = math.min(a, b, c),
+            options = { a, b, c }
+        }
+    else 
+        return {
+            question = S"label[0.25,0.5;Which of the 3 numbers below is the biggest?]",
+            answer = math.max(a, b, c),
+            options = { a, b, c }
+        }
+    end
+end
+
+------------
+-- TRIVIA --
+------------
 
 local trivia_questions = {
     {
@@ -126,6 +157,10 @@ local function coinflip()
     }
 end
 
+-----------------
+-- BOMBULATION --
+-----------------
+
 local ongoing_quizzes = {}
 
 function bombulator.show_quiz_formspec(playername, quiz)
@@ -160,7 +195,7 @@ function bombulator.show_quiz_formspec(playername, quiz)
     .. quiz.question)
 end
 
-local quiz_generators = {arithmetic, trivia, coinflip, guess_the_node}
+local quiz_generators = {arithmetic, select_minmax, trivia, coinflip, guess_the_node}
 
 function bombulator.random_quiz()
     table.shuffle(quiz_generators)
@@ -187,6 +222,10 @@ bombulator.register_bombulation("bombulator:quiz", {
         bombulator.give_quiz_to_player(player)
     end
 })
+
+---------------------
+-- ANSWER HANDLING --
+---------------------
 
 local function is_answer(playername, fields)
     if not fields or not playername or not ongoing_quizzes[playername] then return end
