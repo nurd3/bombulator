@@ -8,6 +8,20 @@ bombulator.ghost_types["bombulator:stander"] = {
     end
 }
 
+local stander_disappear_range = 4.0
+
+bombulator.ghost_types["bombulator:spawner"] = {
+    chance = 1.0,
+    on_step = function(self, _, _, player)
+        local dist = vector.distance(self.object:get_pos(), player:get_pos())
+        if dist < stander_disappear_range then
+            core.add_entity(self.object:get_pos(), self._ent_name)
+            self.object:remove()
+            return
+        end
+    end
+}
+
 local chaser_speed = 8.0
 local chaser_chase_range = 32.0
 
