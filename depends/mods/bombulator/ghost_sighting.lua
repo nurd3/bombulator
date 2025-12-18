@@ -1,6 +1,6 @@
 bombulator.ghost_types = {}
 
-local function on_activate(self, data)
+local function on_activate(self, data, dtime_s)
     local statdat = core.deserialize(data)
 
     if not statdat then self.object:remove() return end
@@ -46,7 +46,7 @@ local function on_activate(self, data)
     local pos = vector.offset(self.object:get_pos(), 0, -collisionbox[2], 0)
     self.object:set_pos(pos)
 
-    if self._behaviour.on_activate then self._behaviour.on_activate(self, statdat) end
+    if self._behaviour.on_activate then self._behaviour.on_activate(self, statdat, dtime_s) end
     
     self._timer = self._timer or statdat.timer or 30.0
 end
