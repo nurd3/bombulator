@@ -38,15 +38,21 @@ local function select_minmax()
         random(select_minmax_minimum, select_minmax_maximum),
         random(select_minmax_minimum, select_minmax_maximum),
         random(select_minmax_minimum, select_minmax_maximum)
+    while a == b or b == c or a == c do
+        a, b, c = 
+            random(select_minmax_minimum, select_minmax_maximum),
+            random(select_minmax_minimum, select_minmax_maximum),
+            random(select_minmax_minimum, select_minmax_maximum)
+    end
     if math.random(2) == 1 then
         return {
-            question = S"label[0.25,0.5;Which of the 3 numbers below is the smallest?]",
+            question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the smallest?")),
             answer = math.min(a, b, c),
             options = { a, b, c }
         }
     else 
         return {
-            question = S"label[0.25,0.5;Which of the 3 numbers below is the biggest?]",
+            question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the biggest?")),
             answer = math.max(a, b, c),
             options = { a, b, c }
         }
