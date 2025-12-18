@@ -138,6 +138,14 @@ function bombulator.show_quiz_formspec(playername, quiz)
     options = {options[1], options[2], quiz.answer}
     table.shuffle(options)
 
+    local answer_index
+
+    for index, option in ipairs(options) do
+        if option == quiz.answer then answer_index = index end
+    end
+
+    ongoing_quizzes[playername].answer_index = answer_index
+
     core.show_formspec(playername, "bombulator:quiz", [[
         formspec_version[4]
         size[8,8]
@@ -145,9 +153,9 @@ function bombulator.show_quiz_formspec(playername, quiz)
         no_prepend[]
     ]]
     .. fmt([[
-        button[0.25,3.0;4.0,0.5;response;%s]
-        button[0.25,3.5;4.0,0.5;response;%s]
-        button[0.25,4.0;4.0,0.5;response;%s]
+        button[0.25,3.0;4.0,0.5;submit_1;%s]
+        button[0.25,3.5;4.0,0.5;submit_2;%s]
+        button[0.25,4.0;4.0,0.5;submit_3;%s]
     ]], options[1], options[2], options[3])
     .. quiz.question)
 end
@@ -174,25 +182,24 @@ function bombulator.give_quiz_to_player(player)
 end
 
 bombulator.register_bombulation("bombulator:quiz", {
-    interval = 60.0,
+    interval = 1.0,
     per_player = function(player)
         bombulator.give_quiz_to_player(player)
     end
 })
 
-local function is_answer(playername, response)
-    if not response or not playername or not ongoing_quizzes[playername] then return end
+local function is_answer(playername, fields)
+    if not fields or not playername or not ongoing_quizzes[playername] then return end
     
-    return tostring(response) == tostring(ongoing_quizzes[playername].answer)
+    return fields["submit_" .. tostring(ongoing_quizzes[playername].answer_index)]
 end
 
 core.register_on_player_receive_fields(function(player, formname, fields)
     if formname ~= "bombulator:quiz" then return end
 
     local playername = player:get_player_name()
-    local response = fields.response
 
-    if is_answer(playername, response) then
+    if is_answer(playername, fields) then
         core.chat_send_player(playername, core.colorize("#00ff00", S"Correct answer! You get to keep playing!"))
         core.close_formspec(playername, "bombulator:quiz")
         ongoing_quizzes[playername] = nil
