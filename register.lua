@@ -26,7 +26,7 @@ end
 --- register a bombulation
 --- definitions have the following properties:
 --- - `interval: float` = on average how often this bombulation occurs
---- - `per_player(player): function` = how this bombulation is applied for each player 
+--- - `per_player: function(player, global_memory)` = how this bombulation is applied for each player 
 function bombulator.register_bombulation(name, def)
     if type(name) ~= "string" then error("bombulator.register_bombulation(): got non-string name") end
     if type(def) ~= "table" then error("bombulator.register_bombulation(): got non-table definition") end
