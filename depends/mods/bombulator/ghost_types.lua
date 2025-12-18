@@ -39,7 +39,7 @@ bombulator.ghost_types["bombulator:chaser"] = {
     end
 }
 
-local killer_speed = 8.0
+local killer_speed = 4.0
 local killer_timer = 16.0
 local killer_min_distance = 64.0
 local killer_kill_distance = 1.0
