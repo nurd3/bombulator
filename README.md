@@ -24,7 +24,7 @@ This includes:
 * **No additional restrictions** — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
 ## Source Code License
-GNU GPL 4.0, see the `LICENSE` file.
+GNU GPL 3.0, see the `LICENSE` file.
 
 
 # Hopes and Dreams
