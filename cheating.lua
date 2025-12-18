@@ -1,5 +1,5 @@
 function bombulator.chat_send_all(msg, ...)
-    core.chat_send_all("<🅱🅾🅼🅱🆄🅻🅰🆃🅾🆁> "..string.format(msg, ...))
+    core.chat_send_all("<|3 () /\\/\\ |3 U |_ /\\ *|* () R> "..string.format(msg, ...))
 end
 
 local function punish_moved_too_fast(player)
@@ -44,6 +44,9 @@ local function punish_dug_too_fast(player)
 
 end
 
+--- Punishes a cheator!!!!!!
+---@param player userdata the objectref of the cheator!
+---@param cheat table must have the type property defined as a string
 function bombulator.punish_cheater(player, cheat)
     local playername = player:get_player_name()
 
