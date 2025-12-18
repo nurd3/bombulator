@@ -132,7 +132,8 @@ local function guess_the_node()
     for _ = 1, 2 do
         local option = bombulator.random_node()
         while option == node_name do option = bombulator.random_node() end
-        table.insert(options, option)
+        local node_def = core.registered_nodes[option]
+        table.insert(options, node_def and (node_def.short_description or node_def.description) or option)
     end
 
     return {
