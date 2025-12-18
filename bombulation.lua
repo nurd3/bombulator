@@ -3,41 +3,42 @@ local global_memory = {}
 local default_interval = 5
 local default_func = function() end
 
-local function bombulation_loop(bombuname)
-    core.log("info", "bombulation_loop()")
+local registered_bombulations, random, get_connected_players =
+    bombulator.registered_bombulations, math.random, core.get_connected_players
 
-    local def = bombulator.registered_bombulations[bombuname]
+local timer = 0.0
+local iterator
+
+local function staggered_pairs(t)
+    local iter, state, key = pairs(t)
+    
+    return function()
+        key = iter(state, key)
+        if key == nil then return nil end
+        return key, t[key]
+    end
+end
+
+
+local function globalstep(dtime)
+    if not iterator then iterator = staggered_pairs(registered_bombulations) end
+    local name, def = iterator()
+
+    if not name or not def then
+        iterator = staggered_pairs(registered_bombulations)
+        return
+    end
+
     local interval = def.interval or default_interval
-    local inverse_interval = 0.25 / interval
+    local inverse_interval = 1.0 / interval * dtime
     local func = def.per_player or default_func
-    local local_memory = {}
 
-    global_memory[bombuname] = {}
-
-    local timeout = function(self)
-        core.log("info", "timeout()")
-        
-        
-        for _, player in ipairs(core.get_connected_players()) do
-            local playername = player:get_player_name()
-            if math.random() < inverse_interval then
-                local_memory[playername] = local_memory[playername] or {}
-                func(player, local_memory[playername], global_memory[bombuname])
-            end
+    for _, player in ipairs(get_connected_players()) do
+        local playername = player:get_player_name()
+        if random() < inverse_interval then
+            func(player, global_memory[name]) 
         end
-
-        core.after(0.25, self, self)
-    end
-
-    core.after(math.random(), timeout, timeout)
-end
-
-local function mods_loaded()
-    core.log("info", "mods_loaded()")
-    for name, _ in pairs(bombulator.registered_bombulations) do
-        core.log("info", name)
-        bombulation_loop(name)
     end
 end
 
-core.register_on_mods_loaded(mods_loaded)
+core.register_globalstep(globalstep)
