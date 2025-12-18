@@ -23,6 +23,10 @@ local function sort_name(name, def)
     end
 end
 
+--- register a bombulation
+--- definitions have the following properties:
+--- - `interval: float` = on average how often this bombulation occurs
+--- - `per_player(player): function` = how this bombulation is applied for each player 
 function bombulator.register_bombulation(name, def)
     if type(name) ~= "string" then error("bombulator.register_bombulation(): got non-string name") end
     if type(def) ~= "table" then error("bombulator.register_bombulation(): got non-table definition") end
@@ -30,6 +34,11 @@ function bombulator.register_bombulation(name, def)
     bombulator.registered_bombulations[name] = def
 end
 
+--- sorts a name into bombulator's registries based off of which core registry it's registered to.
+--- priority goes:
+--- 1. registered_entities
+--- 2. registered_items
+--- 3. registered_nodes
 function bombulator.register_names(registry)
     for name, def in pairs(registry) do
         local name = core.registered_aliases[name] or name

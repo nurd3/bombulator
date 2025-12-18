@@ -12,6 +12,8 @@ local function bombulation_loop(bombuname)
     local func = def.per_player or default_func
     local local_memory = {}
 
+    global_memory[bombuname] = {}
+
     local timeout = function(self)
         core.log("info", "timeout()")
         
@@ -27,16 +29,7 @@ local function bombulation_loop(bombuname)
         core.after(0.25, self, self)
     end
 
-
-
     core.after(math.random(), timeout, timeout)
-end
-
-function bombulator.begin()
-    core.log("info", "bombulator.begin()")
-    for name, _ in pairs(bombulator.registered_bombulations) do
-        global_memory[name] = {}
-    end
 end
 
 local function mods_loaded()

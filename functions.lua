@@ -15,22 +15,32 @@ local function chance_check(name, def)
     return def.chance and math.random() < def.chance or false
 end
 
+--- get a random bombulation
+---@return table
 function bombulator.random_bombulation()
     return random_key(bombulator.registered_bombulations, chance_check)
 end
 
+--- get a random entity
+---@return table
 function bombulator.random_entity()
     return random_key(bombulator.registered_entities, chance_check)
 end
 
+--- get a random item
+---@return table
 function bombulator.random_item()
     return random_key(bombulator.registered_items, chance_check)
 end
 
+--- get a random node
+---@return table
 function bombulator.random_node()
     return random_key(bombulator.registered_nodes, chance_check)
 end
 
+--- get a random sound
+---@return table
 function bombulator.random_sound()
     return random_key(bombulator.registered_sounds, chance_check)
 end
