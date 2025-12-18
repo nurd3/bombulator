@@ -116,7 +116,7 @@ core.register_entity("bombulator:ghost", {
     on_step = on_step,
 })
 
-local ghost_sighting_radius = 32.0
+local ghost_sighting_radius = 128.0
 local ghost_sighting_position_iterations_limit = 512
 
 function bombulator.ghost_sighting(player)
