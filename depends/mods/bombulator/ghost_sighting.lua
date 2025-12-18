@@ -68,7 +68,8 @@ local function on_step(self, dtime, moveresult)
 end
 
 local function on_deactivate(self, removal)
-    if self._behaviour.on_deactivate then self._behaviour.on_deactivate(self, removal) end
+    core.log("info", "bombulator ghost_sighting on_deactivate")
+    if self._behaviour and self._behaviour.on_deactivate then self._behaviour.on_deactivate(self, removal) end
 end
 
 local function on_punch(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
@@ -88,6 +89,7 @@ local function on_punch(self, puncher, time_from_last_punch, tool_capabilities, 
 end
 
 local function get_staticdata(self)
+    core.log("info", "bombulator ghost_sighting get_staticdata")
     local temp = { type = self._ghost_type, ent_name = self._ent_name, timer = self._timer, observer = self._observer }
 
     if self._behaviour and self._behaviour.get_staticdata then self._behaviour.get_staticdata(self, temp) end
@@ -96,12 +98,12 @@ local function get_staticdata(self)
 end
 
 function bombulator.spawn_ghost(pos, ent_name, type, observer)
-    -- core.log(string.format(
-    --     "bombulator %s ghost of %s spawned at %s",
-    --     tostring(type),
-    --     tostring(ent_name),
-    --     vector.to_string(pos)
-    -- ))
+    core.log("info", string.format(
+        "bombulator %s ghost of %s spawned at %s",
+        tostring(type),
+        tostring(ent_name),
+        vector.to_string(pos)
+    ))
     return core.add_entity(pos, "bombulator:ghost", core.serialize {
         type = type,
         ent_name = ent_name,
