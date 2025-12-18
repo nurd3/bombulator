@@ -182,7 +182,7 @@ function bombulator.give_quiz_to_player(player)
 end
 
 bombulator.register_bombulation("bombulator:quiz", {
-    interval = 1.0,
+    interval = 60.0,
     per_player = function(player)
         bombulator.give_quiz_to_player(player)
     end
