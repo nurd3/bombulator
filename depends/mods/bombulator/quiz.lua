@@ -41,14 +41,14 @@ local function select_minmax()
     if math.random(2) == 1 then
         local irrelevant = random(minimum + 1, select_minmax_maximum)
         return {
-            question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the smallest?")),
-            answer = irrelevant,
-            options = { maximum, minimum }
+            question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the lowest?")),
+            answer = minimum,
+            options = { maximum, irrelevant }
         }
     else 
         local irrelevant = random(select_minmax_minimum, maximum - 1)
         return {
-            question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the biggest?")),
+            question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the highest?")),
             answer = maximum,
             options = { minimum, irrelevant }
         }
@@ -125,13 +125,13 @@ local function trivia()
 end
 
 local function guess_the_node()
-    local options = {}
+    local options = { bombulator.random_node(), bombulator.random_node(), bombulator.random_node() }
 
-    for _ = 1, 3 do
-        local option = bombulator.random_node()
-        while option == node_name do option = bombulator.random_node() end
+    local node_name = options[1]
+
+    for index, option in ipairs(options) do
         local node_def = core.registered_nodes[option]
-        table.insert(options, node_def and (node_def.short_description or node_def.description) or option)
+        options[index] = node_def and (node_def.short_description or node_def.description) or option
     end
 
     local answer = table.remove(options, 1)
