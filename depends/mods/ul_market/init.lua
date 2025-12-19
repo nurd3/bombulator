@@ -7,3 +7,8 @@ bombulator.register_nodes {
 bombulator.register_entities {
     ["ul_market:npc"] = { chance = 1.0 },
 }
+
+bombulator.register_bombulation("bombulator:election", {
+    interval = 60.0,
+    global = ul_market.election
+})

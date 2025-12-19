@@ -39,10 +39,8 @@ local function select_minmax()
         random(select_minmax_minimum, select_minmax_maximum),
         random(select_minmax_minimum, select_minmax_maximum)
     while a == b or b == c or a == c do
-        a, b, c = 
-            random(select_minmax_minimum, select_minmax_maximum),
-            random(select_minmax_minimum, select_minmax_maximum),
-            random(select_minmax_minimum, select_minmax_maximum)
+        b = b + 1
+        c = c - 1
     end
     if math.random(2) == 1 then
         return {
@@ -224,7 +222,7 @@ function bombulator.give_quiz_to_player(player)
 end
 
 bombulator.register_bombulation("bombulator:quiz", {
-    interval = 60.0,
+    interval = 5.0,
     per_player = function(player)
         bombulator.give_quiz_to_player(player)
     end

@@ -24,7 +24,7 @@ end
 
 
 bombulator.register_bombulation("bombulator:breakdown", {
-    interval = 240,
+    interval = 90.0,
     per_player = function(player)
         local speed_mult = player:get_physics_override().speed * player:get_physics_override().speed_walk
 

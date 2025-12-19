@@ -19,6 +19,8 @@ local function staggered_pairs(t)
     end
 end
 
+local chaos = core.settings:get("bombulator_chaos") or 1.0
+
 local function globalstep(dtime)
     if not iterator then iterator = staggered_pairs(registered_bombulations) end
     local name, def = iterator()
@@ -36,11 +38,14 @@ local function globalstep(dtime)
     if def.per_player then
         for _, player in ipairs(get_connected_players()) do
             local playername = player:get_player_name()
-            if random() < inverse_interval then
+            if random() < inverse_interval * chaos then
                 def.per_player(player, memory[name])
             end
         end
     end
 end
 
-core.register_globalstep(globalstep)
+core.register_globalstep(function(dtime)
+    globalstep(dtime)
+    globalstep(dtime)
+end)

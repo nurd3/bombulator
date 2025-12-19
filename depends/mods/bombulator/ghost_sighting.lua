@@ -23,21 +23,23 @@ local function on_activate(self, data, dtime_s)
         return
     end
 
+    local initial_properties =
+        ent_def.initial_properties and ent_def.initial_properties or ent_def
 
     self.object:set_properties {
-        collisionbox = ent_def.collisionbox,
-        selectionbox = ent_def.selectionbox,
-        visual = ent_def.visual,
-        visual_size = ent_def.visual_size,
-        textures = ent_def.textures,
-        mesh = ent_def.mesh,
-        use_texture_alpha = ent_def.use_texture_alpha,
-        spritediv = ent_def.spritediv,
-        initial_sprite_basepos = ent_def.initial_sprite_basepos,
-        makes_footstep_sound = ent_def.makes_footstep_sound,
-        backface_culling = ent_def.backface_culling,
-        glow = ent_def.glow,
-        node = ent_def.node
+        collisionbox = initial_properties.collisionbox,
+        selectionbox = initial_properties.selectionbox,
+        visual = initial_properties.visual,
+        visual_size = initial_properties.visual_size,
+        textures = initial_properties.textures,
+        mesh = initial_properties.mesh,
+        use_texture_alpha = initial_properties.use_texture_alpha,
+        spritediv = initial_properties.spritediv,
+        initial_sprite_basepos = initial_properties.initial_sprite_basepos,
+        makes_footstep_sound = initial_properties.makes_footstep_sound,
+        backface_culling = initial_properties.backface_culling,
+        glow = initial_properties.glow,
+        node = initial_properties.node
     }
 
     self.object:set_observers { [self._observer] = true }
@@ -157,7 +159,7 @@ function bombulator.ghost_sighting(player)
 end
 
 bombulator.register_bombulation("bombulator:ghost_sighting", {
-    interval = 60.0,
+    interval = 15.0,
     per_player = function(player)
         bombulator.ghost_sighting(player)
     end

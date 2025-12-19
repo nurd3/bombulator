@@ -5,7 +5,7 @@ function bombulator.leap(player)
 end
 
 bombulator.register_bombulation("bombulator:leap", {
-    interval = 60.0,
+    interval = 45.0,
     per_player = function(player)
         bombulator.leap(player)
     end

@@ -34,12 +34,20 @@ bombulator.ghost_types["bombulator:chaser"] = {
         if dist < stander_disappear_range then
             self.object:remove() return
         elseif dist < chaser_chase_range then
-            self.object:set_velocity(vector.direction(pos, player:get_pos()) * chaser_speed)
+            local goal = player:get_pos()
+            -- adjust for eye_height
+            goal.y = goal.y + player:get_properties().eye_height or 1.625
+
+            local path = core.find_path(pos, goal, 128, 16, 16)
+            local next_pos = path and path[2] or goal
+            local dir = vector.direction(pos, next_pos)
+
+            self.object:set_velocity(vector.direction(pos, next_pos) * chaser_speed)
         end
     end
 }
 
-local killer_speed = 4.0
+local killer_speed = 6.0
 local killer_timer = 16.0
 local killer_min_distance = 64.0
 local killer_kill_distance = 1.0
@@ -69,9 +77,16 @@ bombulator.ghost_types["bombulator:killer"] = {
         local pos = self.object:get_pos()
         local dist = vector.distance(pos, player:get_pos())
 
-        self.object:set_velocity(vector.direction(pos, player:get_pos()) * killer_speed)
-
         if player:get_hp() <= 0 then self.object:remove() end
+
+        local goal = player:get_pos()
+        -- adjust for eye_height
+        goal.y = goal.y + player:get_properties().eye_height or 1.625
+        local path = core.find_path(pos, goal, 128, 16, 16)
+        local next_pos = path and path[2] or goal
+        local dir = vector.direction(pos, next_pos)
+
+        self.object:set_velocity(dir * killer_speed)
         
         if dist < killer_kill_distance then
             self.object:remove()

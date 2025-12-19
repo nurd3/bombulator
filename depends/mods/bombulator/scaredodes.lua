@@ -25,7 +25,7 @@ end
 
 local function on_step(self, dtime, moveresult)
     local pos = self.object:get_pos()
-    local below = core.get_node(vector.floor(vector.offset(pos, 0, -0.5, 0)))
+    local below = core.get_node(vector.floor(vector.offset(pos, 0, -0.25, 0)))
     local below_def = core.registered_nodes[below.name]
     local next_pos = self._path and self._index and self._path[self._index]
 
@@ -105,7 +105,7 @@ function bombulator.add_fake_node(pos, speed_mult, node)
 end
 
 bombulator.register_bombulation("bombulator:scaredodes", {
-    interval = 5,
+    interval = 2.0,
     per_player = function(player)
         if not player:get_player_control().dig then return end
 

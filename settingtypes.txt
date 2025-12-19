@@ -1,0 +1,5 @@
+# How chaotic bombulation should be
+# Higher values make bombulation more likely each game tick
+# Lower values make bombulation less likely each game tick
+# values under 0 mean nothing happens
+bombulator_chaos (Chaos) float 1.0 0.001 100.0
