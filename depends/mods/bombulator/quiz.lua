@@ -34,25 +34,23 @@ local select_minmax_minimum = -99
 local select_minmax_maximum = 99
 
 local function select_minmax()
-    local a, b, c = 
-        random(select_minmax_minimum, select_minmax_maximum),
-        random(select_minmax_minimum, select_minmax_maximum),
-        random(select_minmax_minimum, select_minmax_maximum)
-    while a == b or b == c or a == c do
-        b = b + 1
-        c = c - 1
-    end
+    local minimum =
+        random(select_minmax_minimum, select_minmax_maximum - 1)
+    local maximum
+        = random(minimum + 1, select_minmax_maximum)
     if math.random(2) == 1 then
+        local irrelevant = random(minimum + 1, select_minmax_maximum)
         return {
             question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the smallest?")),
-            answer = math.min(a, b, c),
-            options = { a, b, c }
+            answer = irrelevant,
+            options = { maximum, minimum }
         }
     else 
+        local irrelevant = random(select_minmax_minimum, maximum - 1)
         return {
             question = fmt("label[0.25,0.5;%s]", core.formspec_escape(S"Which of the 3 numbers below is the biggest?")),
-            answer = math.max(a, b, c),
-            options = { a, b, c }
+            answer = maximum,
+            options = { minimum, irrelevant }
         }
     end
 end
@@ -127,25 +125,23 @@ local function trivia()
 end
 
 local function guess_the_node()
-    local node_name = bombulator.random_node()
-
-    if not node_name then return end
-
     local options = {}
 
-    for _ = 1, 2 do
+    for _ = 1, 3 do
         local option = bombulator.random_node()
         while option == node_name do option = bombulator.random_node() end
         local node_def = core.registered_nodes[option]
         table.insert(options, node_def and (node_def.short_description or node_def.description) or option)
     end
 
+    local answer = table.remove(options, 1)
+
     return {
         question = fmt([[
             label[0.25,0.5;%s]
             item_image[0.25,0.75;1.0,1.0;%s]
         ]], core.formspec_escape(S"What is this node?"), node_name),
-        answer = node_name,
+        answer = answer,
         options = options
     }
 end
