@@ -69,7 +69,6 @@ bombulator.ghost_types["bombulator:killer"] = {
         self._sound_loop = core.sound_play("bombulator_chase_loop", {
             to_player = self._observer,
             object = self.object,
-            loop = true,
             max_hear_distance = 64.0
         })
     end,

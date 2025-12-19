@@ -26,6 +26,8 @@ local function on_activate(self, data, dtime_s)
     local initial_properties =
         ent_def.initial_properties and ent_def.initial_properties or ent_def
 
+    for k, v in pairs(ent_def) do initial_properties[k] = v end
+
     self.object:set_properties {
         collisionbox = initial_properties.collisionbox,
         selectionbox = initial_properties.selectionbox,
