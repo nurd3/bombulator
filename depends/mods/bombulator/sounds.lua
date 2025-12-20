@@ -41,11 +41,11 @@ bombulator.register_bombulation("bombulator:spatial_sound", {
 })
 
 bombulator.register_bombulation("bombulator:buncha_spatial_sound", {
-    interval = 15.0,
+    interval = 60.0,
     per_player = function(player)
         local pos, playername = player:get_pos(), player:get_player_name()
-        for _ = 1, math.random(25) do
-            bombulator.spatial_sound(pos, playername)
+        for _ = 3, math.random(10) do
+            core.after(math.random() * 5, bombulator.spatial_sound, pos, playername)
         end
     end
 })
@@ -85,11 +85,11 @@ bombulator.register_bombulation("bombulator:node_sound", {
 })
 
 bombulator.register_bombulation("bombulator:buncha_node_sound", {
-    interval = 15.0,
+    interval = 60.0,
     per_player = function(player)
         local pos, playername = player:get_pos(), player:get_player_name()
-        for _ = 1, math.random(25) do
-            bombulator.node_sound(pos, playername)
+        for _ = 3, math.random(10) do
+            core.after(math.random() * 5, bombulator.node_sound, pos, playername)
         end
     end
 })
