@@ -5,6 +5,7 @@ dofile (path .. "/entities.lua")
 
 dofile (path .. "/quiz.lua")
 dofile (path .. "/leap.lua")
+dofile (path .. "/simon_says.lua")
 
 dofile (path .. "/scaredodes.lua")
 dofile (path .. "/traps.lua")
