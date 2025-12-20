@@ -146,12 +146,12 @@ local function trivia()
 end
 
 local function guess_the_node()
-    local options = { bombulator.random_node(), bombulator.random_node(), bombulator.random_node() }
-
+    local options = { bombulator.random_node(), bombulator.random_node() }
     local node_name = options[1]
 
     for index, option in ipairs(options) do
         local node_def = core.registered_nodes[option]
+        while index ~= 1 and option == node_name do options[index] = bombulator.random_node() end
         options[index] = node_def and (node_def.short_description or node_def.description) or option
     end
 
