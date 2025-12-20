@@ -3,6 +3,7 @@ bombulator.registered_entities = {}
 bombulator.registered_items = {}
 bombulator.registered_nodes = {}
 bombulator.registered_sounds = {}
+bombulator.registered_textures = {}
 
 -- stfu complexity calculator
 
@@ -88,10 +89,17 @@ end
 
 function bombulator.register_sounds(registry)
     for name, def in pairs(registry) do
-        local name = core.registered_aliases[name] or name
-
         if type(name) ~= "string" then error("bombulator.register_sounds(): got non-string name") end
         if type(def) ~= "table" then error("bombulator.register_sounds(): got non-table definition") end
+
+        bombulator.registered_sounds[name] = def
+    end
+end
+
+function bombulator.register_textures(registry)
+    for name, def in pairs(registry) do
+        if type(name) ~= "string" then error("bombulator.register_textures(): got non-string name") end
+        if type(def) ~= "table" then error("bombulator.register_textures(): got non-table definition") end
 
         bombulator.registered_sounds[name] = def
     end

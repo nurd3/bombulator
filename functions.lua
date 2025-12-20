@@ -44,3 +44,9 @@ end
 function bombulator.random_sound()
     return random_key(bombulator.registered_sounds, chance_check)
 end
+
+--- get a random texture
+---@return table
+function bombulator.random_texture()
+    return random_key(bombulator.registered_textures, chance_check)
+end

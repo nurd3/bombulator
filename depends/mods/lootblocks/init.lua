@@ -3,3 +3,7 @@ bombulator.register_nodes {
     ["lootblocks:lootblock_rare"] = { chance = 1.0 },
     ["lootblocks:lootblock_super"] = { chance = 1.0 },
 }
+
+bombulator.register_textures {
+    ["lootblocks_lootblock.png"] = { chance = 1.0 }
+}

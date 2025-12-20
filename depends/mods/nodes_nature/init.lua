@@ -31,3 +31,20 @@ bombulator.register_nodes {
     ["nodes_nature:sasaran_tree"] = { chance = 1.0 },
     ["nodes_nature:kagum_tree"] = { chance = 1.0 },
 }
+
+bombulator.register_textures {
+    ["nodes_nature_ag_dep_top.png"] = { chance = 1.0 },
+    ["nodes_nature_ag_top.png"] = { chance = 1.0 },
+    ["nodes_nature_basalt.png"] = { chance = 1.0 },
+    ["nodes_nature_clay.png"] = { chance = 1.0 },
+    ["nodes_nature_claystone.png"] = { chance = 1.0 },
+    ["nodes_nature_conglomerate_brick.png"] = { chance = 1.0 },
+    ["nodes_nature_freshwater_flowing_animated.png"] = { chance = 1.0 },
+    ["nodes_nature_freshwater.png"] = { chance = 1.0 },
+    ["nodes_nature_lava.png"] = { chance = 1.0 },
+    ["nodes_nature_kagum_tree_top.png"] = { chance = 1.0 },
+    ["nodes_nature_maraka_log.png"] = { chance = 1.0 },
+    ["nodes_nature_marshland_soil.png"] = { chance = 1.0 },
+    ["nodes_nature_moss.png"] = { chance = 1.0 },
+    ["nodes_nature_silt.png"] = { chance = 1.0 },
+}

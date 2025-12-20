@@ -28,6 +28,12 @@ local function on_activate(self, data, dtime_s)
 
     for k, v in pairs(ent_def) do initial_properties[k] = v end
 
+    local textures = {}
+
+    for _ = 1, math.random(1, 6) do
+        table.insert(textures, bombulator.random_texture())
+    end
+
     self.object:set_properties {
         collisionbox = initial_properties.collisionbox,
         selectionbox = initial_properties.selectionbox,

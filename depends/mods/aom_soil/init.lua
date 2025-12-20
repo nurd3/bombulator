@@ -10,3 +10,15 @@ bombulator.register_nodes {
     ["aom_soil:grass_snow"] = { chance = 1.0 },
     ["aom_soil:snow"] = { chance = 1.0 }
 }
+
+bombulator.register_textures {
+    ["aom_clay.png"] = { chance = 1.0 },
+    ["aom_dirt.png"] = { chance = 1.0 },
+    ["aom_dirt_mud.png"] = { chance = 1.0 },
+    ["aom_forest_dirt.png"] = { chance = 1.0 },
+    ["aom_grass.png"] = { chance = 1.0 },
+    ["aom_gravel.png"] = { chance = 1.0 },
+    ["aom_moss.png"] = { chance = 1.0 },
+    ["aom_sand.png"] = { chance = 1.0 },
+    ["aom_snow.png"] = { chance = 1.0 },
+}

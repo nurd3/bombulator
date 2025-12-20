@@ -7,3 +7,9 @@ core.register_entity("bombulator:builtin_player", {
 })
 
 bombulator.register_entities { ["bombulator:builtin_player"] = { chance = 1.0 } }
+
+bombulator.register_textures {
+    ["no_texture.png"] = { chance = 1.0 },
+    ["player.png"] = { chance = 1.0 },
+    ["player_back.png"] = { chance = 1.0 },
+}

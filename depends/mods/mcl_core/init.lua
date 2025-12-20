@@ -28,3 +28,27 @@ bombulator.register_nodes {
     ["mcl_core:blue_ice"] = { chance = 1.0 },
     ["mcl_core:snow"] = { chance = 1.0 },
 }
+
+bombulator.register_textures {
+    ["extra_mobs_cod.png"] = { chance = 1.0 },
+    ["extra_mobs_dolphin.png"] = { chance = 1.0 },
+    ["extra_mobs_glow_squid.png"] = { chance = 1.0 },
+    ["extra_mobs_hoglin.png"] = { chance = 1.0 },
+    ["extra_mobs_piglin.png"] = { chance = 1.0 },
+    ["extra_mobs_piglin_brute.png"] = { chance = 1.0 },
+    ["mobs_mc_creeper.png"] = { chance = 1.0 },
+    ["mobs_mc_drowned.png"] = { chance = 1.0 },
+
+    ["mcl_pantings_paintings.png"] = { chance = 1.0 },
+    ["mcl_pantings_painting.png"] = { chance = 1.0 },
+
+    ["default_acacia_leaves"] = { chance = 1.0 },
+    ["default_brick"] = { chance = 1.0 },
+    ["default_clay"] = { chance = 1.0 },
+    ["default_cobble"] = { chance = 1.0 },
+    ["default_dirt"] = { chance = 1.0 },
+    ["default_gold_block"] = { chance = 1.0 },
+    ["default_gravel"] = { chance = 1.0 },
+    ["default_ice"] = { chance = 1.0 },
+    ["default_stone"] = { chance = 1.0 },
+}

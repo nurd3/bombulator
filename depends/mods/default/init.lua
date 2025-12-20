@@ -106,3 +106,15 @@ bombulator.register_sounds {
 
     ["default_tool_breaks"] = { chance = 1.0 },
 }
+
+bombulator.register_textures {
+    ["default_acacia_leaves"] = { chance = 1.0 },
+    ["default_brick"] = { chance = 1.0 },
+    ["default_clay"] = { chance = 1.0 },
+    ["default_cobble"] = { chance = 1.0 },
+    ["default_dirt"] = { chance = 1.0 },
+    ["default_gold_block"] = { chance = 1.0 },
+    ["default_gravel"] = { chance = 1.0 },
+    ["default_ice"] = { chance = 1.0 },
+    ["default_stone"] = { chance = 1.0 },
+}
