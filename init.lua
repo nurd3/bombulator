@@ -12,5 +12,3 @@ dofile (path .. "/bombulation.lua")
 dofile (path .. "/cheating.lua")
 
 deploader.load_depends()
-
-bombulator.random_sound()
