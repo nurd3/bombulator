@@ -176,7 +176,7 @@ function bombulator.ghost_sighting(player)
 end
 
 bombulator.register_bombulation("bombulator:ghost_sighting", {
-    interval = 1.0,
+    interval = 15.0,
     per_player = function(player)
         bombulator.ghost_sighting(player)
     end
