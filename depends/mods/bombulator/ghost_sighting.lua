@@ -39,7 +39,7 @@ local function on_activate(self, data, dtime_s)
         selectionbox = initial_properties.selectionbox,
         visual = initial_properties.visual,
         visual_size = initial_properties.visual_size,
-        textures = initial_properties.textures,
+        textures = textures,
         mesh = initial_properties.mesh,
         use_texture_alpha = initial_properties.use_texture_alpha,
         spritediv = initial_properties.spritediv,
@@ -176,7 +176,7 @@ function bombulator.ghost_sighting(player)
 end
 
 bombulator.register_bombulation("bombulator:ghost_sighting", {
-    interval = 15.0,
+    interval = 1.0,
     per_player = function(player)
         bombulator.ghost_sighting(player)
     end
