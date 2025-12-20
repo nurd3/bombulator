@@ -101,6 +101,6 @@ function bombulator.register_textures(registry)
         if type(name) ~= "string" then error("bombulator.register_textures(): got non-string name") end
         if type(def) ~= "table" then error("bombulator.register_textures(): got non-table definition") end
 
-        bombulator.registered_sounds[name] = def
+        bombulator.registered_textures[name] = def
     end
 end
