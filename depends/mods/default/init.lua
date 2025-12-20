@@ -108,13 +108,13 @@ bombulator.register_sounds {
 }
 
 bombulator.register_textures {
-    ["default_acacia_leaves"] = { chance = 1.0 },
-    ["default_brick"] = { chance = 1.0 },
-    ["default_clay"] = { chance = 1.0 },
-    ["default_cobble"] = { chance = 1.0 },
-    ["default_dirt"] = { chance = 1.0 },
-    ["default_gold_block"] = { chance = 1.0 },
-    ["default_gravel"] = { chance = 1.0 },
-    ["default_ice"] = { chance = 1.0 },
-    ["default_stone"] = { chance = 1.0 },
+    ["default_acacia_leaves.png"] = { chance = 1.0 },
+    ["default_brick.png"] = { chance = 1.0 },
+    ["default_clay.png"] = { chance = 1.0 },
+    ["default_cobble.png"] = { chance = 1.0 },
+    ["default_dirt.png"] = { chance = 1.0 },
+    ["default_gold_block.png"] = { chance = 1.0 },
+    ["default_gravel.png"] = { chance = 1.0 },
+    ["default_ice.png"] = { chance = 1.0 },
+    ["default_stone.png"] = { chance = 1.0 },
 }
