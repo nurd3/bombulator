@@ -40,6 +40,16 @@ bombulator.register_bombulation("bombulator:spatial_sound", {
     end
 })
 
+bombulator.register_bombulation("bombulator:buncha_spatial_sound", {
+    interval = 15.0,
+    per_player = function(player)
+        local pos, playername = player:get_pos(), player:get_player_name()
+        for _ = 1, math.random(25) do
+            bombulator.spatial_sound(pos, playername)
+        end
+    end
+})
+
 local node_sound_range = 64.0
 
 local function random_key(tbl)
@@ -71,6 +81,16 @@ bombulator.register_bombulation("bombulator:node_sound", {
     interval = 15.0,
     per_player = function(player)
         bombulator.node_sound(player:get_pos(), player:get_player_name())
+    end
+})
+
+bombulator.register_bombulation("bombulator:buncha_node_sound", {
+    interval = 15.0,
+    per_player = function(player)
+        local pos, playername = player:get_pos(), player:get_player_name()
+        for _ = 1, math.random(25) do
+            bombulator.node_sound(pos, playername)
+        end
     end
 })
 
