@@ -105,7 +105,7 @@ local trivia_questions = {
         }
     },
     {
-        question = S"Say my name.",
+        question = S"What's my name?",
         answer = S"B O M B U L A T O R",
         options = {
             S"Minetest",
@@ -113,6 +113,27 @@ local trivia_questions = {
             S"Unlit",
             S"Void - An empty game",
             S"Age of Mending"
+        }
+    },
+    {
+        question = S"Say something.",
+        answer = S"Something",
+        options = {
+            S"Hi",
+            S"No",
+            S"Okay",
+            S"What?",
+            S"This isn't a question"
+        }
+    },
+    {
+        question = S"Remember this question.",
+        answer = S"Okay",
+        options = {
+            S"Hi",
+            S"No",
+            S"What?",
+            S"This isn't a question"
         }
     },
 }
