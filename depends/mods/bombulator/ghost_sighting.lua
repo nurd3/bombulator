@@ -136,8 +136,17 @@ core.register_entity("bombulator:ghost", {
 local ghost_sighting_radius = 128.0
 local ghost_sighting_position_iterations_limit = 512
 
+local vrand_dir, vnormalize, vround =
+    vector.random_direction, vector.round, vector.round
+
 function bombulator.ghost_sighting(player)
-    local pos = vector.round(player:get_pos() + vector.random_direction() * ghost_sighting_radius * math.random())
+    -- make direction only along x, z since y is handled by code below
+    local dir = vrand_dir()
+    dir.y = 0
+    dir = vnormalize(dir)
+
+    local pos = vround(player:get_pos() + dir * ghost_sighting_radius * math.random())
+
     local ent_name = bombulator.random_entity()
     local temp = {}
     local playername = player:get_player_name()
