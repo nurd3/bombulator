@@ -1,6 +1,7 @@
-local random = math.random
-local fmt = string.format
-local S = bombulator.get_translator
+-- ALIASES --
+local random, fmt, S =
+    math.random, string.format, bombulator.get_translator
+-------------
 
 ----------
 -- MATH --
@@ -145,13 +146,23 @@ local function trivia()
     return quiz
 end
 
+--------------------
+-- GUESS THE NODE --
+--------------------
+
 local function guess_the_node()
+    -- quiz doesn't work if there aren't at least 2 options to pick from
+    if #bombulator.registered_nodes < 2 then return end
     local options = { bombulator.random_node(), bombulator.random_node(), bombulator.random_node() }
     local node_name = options[1]
 
     for index, option in ipairs(options) do
         local node_def = core.registered_nodes[option]
-        while index ~= 1 and option == node_name do options[index] = bombulator.random_node() end
+
+        while index ~= 1 and option == node_name do
+            options[index] = bombulator.random_node()
+        end
+
         options[index] = node_def and (node_def.short_description or node_def.description) or option
     end
 
@@ -228,12 +239,19 @@ end
 
 function bombulator.give_quiz_to_player(player)
     local playername = player:get_player_name()
-    local quiz = bombulator.random_quiz()
-
-    while not quiz do bombulator.random_quiz() end
 
     -- do not show player another quiz if they already have a quiz
     if ongoing_quizzes[playername] then return end
+
+    local quiz = bombulator.random_quiz()
+    local tries_left = 128
+
+    while not quiz and tries_left > 0 do
+        bombulator.random_quiz()
+        tries_left = tries_left - 1
+    end
+
+    if not quiz then return end
 
     bombulator.show_quiz_formspec(playername, quiz) 
 end

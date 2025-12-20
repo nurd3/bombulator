@@ -1,22 +1,15 @@
+-- VECTOR ALIASES --
 local vrand_dir, vnormalize, vround, 
-    vdistance, vdirection, vdir2rot,
-    vlength =
-    vector.random_direction, vector.round, vector.round,
-    vector.distance, vector.direction, vector.dir_to_rotation,
-    vector.length
+    vdistance, vdirection, vlength =
+        vector.random_direction, vector.round, vector.round,
+        vector.distance, vector.direction, vector.length
+-- OTHER ALIASES ---
+local two_shot_kill, look_at =
+    bombulator.utils.two_shot_kill, bombulator.utils.look_at
+--------------------
+
 
 local VECTOR_UP = vector.new(0, 1, 0)
-
-local function look_at_obj(self, target)
-    if type(self) == "table" then return look_at_obj(self.object, target) end
-
-    local tpos = target:get_pos()
-    local dir = vdirection(self:get_pos(), target:get_pos())
-
-    dir.y = 0
-
-    self:set_rotation( vdir2rot(dir, VECTOR_UP) )
-end
 
 local stander_disappear_range = 4.0
 
@@ -27,7 +20,7 @@ bombulator.ghost_types["bombulator:stander"] = {
         local tpos = player:get_pos()
         local dist = vdistance(obj:get_pos(), tpos)
         
-        look_at_obj(obj, player)
+        look_at(obj, player)
 
         if dist < stander_disappear_range then obj:remove() return end
     end
@@ -42,7 +35,7 @@ bombulator.ghost_types["bombulator:spawner"] = {
         local tpos = player:get_pos()
         local dist = vdistance(obj:get_pos(), tpos)
         
-        look_at_obj(obj, player)
+        look_at(obj, player)
 
         if dist < stander_disappear_range then
             core.add_entity(obj:get_pos(), self._ent_name)
@@ -63,7 +56,7 @@ bombulator.ghost_types["bombulator:chaser"] = {
         local tpos = player:get_pos()
         local dist = vdistance(obj:get_pos(), tpos)
         
-        look_at_obj(obj, player)
+        look_at(obj, player)
         
         if dist < stander_disappear_range then
             obj:remove() return
@@ -105,7 +98,7 @@ bombulator.ghost_types["bombulator:killer"] = {
         local tpos = player:get_pos()
         local dist = vdistance(obj:get_pos(), tpos)
         
-        look_at_obj(obj, player)
+        look_at(obj, player)
 
         if player:get_hp() <= 0 then self.object:remove() end
         if not self._sound_loop then

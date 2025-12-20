@@ -1,6 +1,10 @@
-local registered_bombulations, random, get_connected_players =
-    bombulator.registered_bombulations, math.random, core.get_connected_players
-
+-- ALIASES --
+local registered_bombulations, random, get_connected_players,
+    abstract_pairs =
+        bombulator.registered_bombulations, math.random, core.get_connected_players,
+        bombulator.utils.abstract_pairs
+-------------
+    
 local memory = {}
 
 local timer = 0.0
@@ -9,24 +13,14 @@ local iterator
 local default_interval = 5
 local default_func = function() end
 
-local function staggered_pairs(t)
-    local iter, state, key = pairs(t)
-    
-    return function()
-        key = iter(state, key)
-        if key == nil then return nil end
-        return key, t[key]
-    end
-end
-
 local chaos = core.settings:get("bombulator_chaos") or 1.0
 
 local function globalstep(dtime)
-    if not iterator then iterator = staggered_pairs(registered_bombulations) end
+    if not iterator then iterator = abstract_pairs(registered_bombulations) end
     local name, def = iterator()
 
     if not name or not def then
-        iterator = staggered_pairs(registered_bombulations)
+        iterator = abstract_pairs(registered_bombulations)
         return
     end
 
@@ -45,6 +39,7 @@ local function globalstep(dtime)
     end
 end
 
+-- runs globalstep twice because bombulator wasn't very aggressive before.
 core.register_globalstep(function(dtime)
     globalstep(dtime)
     globalstep(dtime)

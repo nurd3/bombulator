@@ -1,5 +1,10 @@
 bombulator.ghost_types = {}
 
+-- ALIASES --
+local vrand_dir, vnormalize, vround =
+    vector.random_direction, vector.round, vector.round
+-------------
+
 local function on_activate(self, data, dtime_s)
     local statdat = core.deserialize(data)
 
@@ -135,9 +140,6 @@ core.register_entity("bombulator:ghost", {
 
 local ghost_sighting_radius = 128.0
 local ghost_sighting_position_iterations_limit = 512
-
-local vrand_dir, vnormalize, vround =
-    vector.random_direction, vector.round, vector.round
 
 function bombulator.ghost_sighting(player)
     -- make direction only along x, z since y is handled by code below
