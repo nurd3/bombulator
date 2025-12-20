@@ -146,7 +146,7 @@ local function trivia()
 end
 
 local function guess_the_node()
-    local options = { bombulator.random_node(), bombulator.random_node() }
+    local options = { bombulator.random_node(), bombulator.random_node(), bombulator.random_node() }
     local node_name = options[1]
 
     for index, option in ipairs(options) do
