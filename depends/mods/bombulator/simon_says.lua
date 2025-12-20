@@ -3,7 +3,7 @@ local get_connected_players, fmt =
 
 local followed_orders = {}
 local order
-local possible_orders = {"jump", "sneak", "dig"}
+local possible_orders = {"jump", "sneak", "dig", "place", "zoom"}
 local timer = 0.0
 
 function bombulator.simon_says()
@@ -40,7 +40,8 @@ local function globalstep(dtime)
                     core.sound_play("bombulator_simon_says_fail", {
                         to_player = playername
                     })
-                    player:set_hp(player:get_hp() - 1)
+                    if player:get_hp() > 1 then player:set_hp(1)
+                    else player:set_hp(0) end
                 end
             end
             order = nil

@@ -127,7 +127,8 @@ bombulator.ghost_types["bombulator:killer"] = {
         
         if dist < killer_kill_distance then
             obj:remove()
-            player:set_hp(0)
+            if player:get_hp() > 1 then player:set_hp(1)
+            else player:set_hp(0) end
         end
     end,
     on_deactivate = function(self, removal)
