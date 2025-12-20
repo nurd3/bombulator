@@ -3,12 +3,12 @@ local get_connected_players, fmt =
 
 local followed_orders = {}
 local order
-local possible_orders = {"jump", "crouch", "dig"}
+local possible_orders = {"jump", "sneak", "dig"}
 local timer = 0.0
 
 function bombulator.simon_says()
-    core.log("info", "bombulator.simon_says()")
     if order ~= nil then return end
+    core.log("info", "bombulator.simon_says()")
 
     for _, player in ipairs(get_connected_players()) do
         local playername = player:get_player_name()
@@ -18,6 +18,7 @@ function bombulator.simon_says()
     order = possible_orders[math.random(#possible_orders)]
     timer = 10.0
 
+    core.sound_play("bombulator_simon_says")
     bombulator.chat_send_all("Simon says %s", order)
 end
 
@@ -36,7 +37,10 @@ local function globalstep(dtime)
                 local playername = player:get_player_name()
                 if not followed_orders[playername] then
                     core.chat_send_all(core.colorize("#ff0000", fmt("%s didn't %s!", playername, order)))
-                    player:set_hp(0)
+                    core.sound_play("bombulator_simon_says_fail", {
+                        to_player = playername
+                    })
+                    player:set_hp(player:get_hp() - 1)
                 end
             end
             order = nil
