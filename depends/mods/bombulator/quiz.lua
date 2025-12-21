@@ -1,6 +1,8 @@
 -- ALIASES --
-local random, fmt, S =
-    math.random, string.format, bombulator.get_translator
+local random, fmt, S,
+    vlength =
+        math.random, string.format, bombulator.get_translator,
+        vector.length
 -------------
 
 ----------
@@ -259,6 +261,9 @@ end
 bombulator.register_bombulation("bombulator:quiz", {
     interval = 5.0,
     per_player = function(player)
+        -- do not override respawn formspec
+        if player:get_hp() < 0 then return end
+        if vlength(player:get_velocity()) < 0.1 then return end
         bombulator.give_quiz_to_player(player)
     end
 })
