@@ -36,7 +36,8 @@ local function on_activate(self, data, dtime_s)
     local textures = {}
 
     for _ = 1, math.random(1, 6) do
-        table.insert(textures, bombulator.random_texture())
+        local texture, _ = bombulator.random_texture()
+        table.insert(textures, texture)
     end
 
     self.object:set_properties {
