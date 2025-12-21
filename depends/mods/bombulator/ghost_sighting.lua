@@ -1,8 +1,10 @@
 bombulator.ghost_types = {}
 
 -- ALIASES --
-local vrand_dir, vnormalize, vround =
-    vector.random_direction, vector.round, vector.round
+local vrand_dir, vnormalize, vround,
+    push =
+        vector.random_direction, vector.round, vector.round,
+        bombulator.utils.push
 -------------
 
 local function on_activate(self, data, dtime_s)
@@ -36,8 +38,7 @@ local function on_activate(self, data, dtime_s)
     local textures = {}
 
     for _ = 1, math.random(1, 6) do
-        local texture, _ = bombulator.random_texture()
-        table.insert(textures, texture)
+        push(textures, bombulator.random_texture())
     end
 
     self.object:set_properties {
@@ -158,7 +159,7 @@ function bombulator.ghost_sighting(player)
 
     for name, def in pairs(bombulator.ghost_types) do
         if def and def.chance and math.random() < def.chance then
-            table.insert(temp, name)
+            push(temp, name)
         end
     end
 

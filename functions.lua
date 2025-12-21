@@ -46,6 +46,12 @@ end
 ---@return function the next() function, takes no arguments.
 bombulator.utils.abstract_pairs = abstract_pairs
 
+local function push(t, value)
+    return table.insert(t, value)
+end
+--- Like `table.insert` but ignores the (table, pos, value) format.
+bombulator.utils.push = push
+
 ----------------------
 -- VECTOR FUNCTIONS --
 ----------------------
