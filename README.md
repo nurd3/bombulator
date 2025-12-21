@@ -4,7 +4,7 @@ Hypersophisticated algorithmic metaprankster system for Luanti.
 
 ## Media License
 
-[![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
+[![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0/)
 CC BY-SA 4.0
 <br>
 This includes:
