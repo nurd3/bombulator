@@ -12,6 +12,11 @@ local VECTOR_UP = vector.new(0, 1, 0)
 --- Utility functions provided by bombulator.
 bombulator.utils = {}
 
+--- Error function binded with string.format for the message.
+--- NOTE: Unlike error, level comes before message.
+---@param level number|nil the level of the error.
+---@param message string the format string of the message.
+---@vararg any format variables
 local function errorfmt(level, message, ...)
     error(
         fmt(message, ...),
@@ -21,17 +26,15 @@ local function errorfmt(level, message, ...)
         (level or 1) + 1
     )
 end
---- Error function binded with string.format for the message.
---- NOTE: Unlike error, level comes before message.
----@param level number|nil the level of the error.
----@param message string the format string of the message.
----@vararg any format variables
 bombulator.utils.errorfmt = errorfmt
 
 ---------------------
 -- TABLE FUNCTIONS --
 ---------------------
 
+--- Modified pairs function that takes responsibility over handling iterator state.
+---@param t table the table to iterate over.
+---@return function the next() function, takes no arguments.
 local function abstract_pairs(t)
     local iter, state, key = pairs(t)
     
@@ -41,15 +44,12 @@ local function abstract_pairs(t)
         return key, t[key]
     end
 end
---- Modified pairs function that takes responsibility over handling iterator state.
----@param t table the table to iterate over.
----@return function the next() function, takes no arguments.
 bombulator.utils.abstract_pairs = abstract_pairs
 
+--- Like `table.insert` but ignores the (table, pos, value) format.
 local function push(t, value)
     return table.insert(t, value)
 end
---- Like `table.insert` but ignores the (table, pos, value) format.
 bombulator.utils.push = push
 
 ----------------------
@@ -58,33 +58,29 @@ bombulator.utils.push = push
 
 -- is_vector --
 
+--- Checks if thing is a vector, handles any value type.
+---@param tabl table the thing being checked
+---@return boolean true if thing is a vector, false otherwise
 local function is_vector(tabl)
     return type(tabl) == "table"
         and type(tabl.x) == "number"
         and type(tabl.y) == "number"
         and type(tabl.z) == "number"
 end
---- Checks if thing is a vector, handles any value type.
----@param tabl table the thing being checked
----@return boolean true if thing is a vector, false otherwise
 bombulator.utils.is_vector = is_vector
 
 -- to_vector --
 
-local function to_vector(thing)
-    if is_vector(thing) then return thing end
-    if type(thing) == "string" then return vector.from_string(thing) end
-    local obj = to_valid_objectref(thing)
-    return obj and obj:get_pos()
-end
 --- Tries to get a vector from the provided thing.
 --- Handles vectors by just returning the vector.
---- Handles ObjectRefs by returning `objectref:get_pos()`.
---- Handles LuaEntity tables by returning `luaentity.object:get_pos()`.
 --- Handles strings by returning `vector.from_string(string)`.
 --- Unlike `position_of`, this doesn't handle playernames, and doesn't copy if a vector is provided.
 ---@param thing userdata|table|string the thing to be converted into a vector
----@return table|nil 
+---@return vector|nil
+local function to_vector(thing)
+    if is_vector(thing) then return thing end
+    if type(thing) == "string" then return vector.from_string(thing) end
+end
 bombulator.utils.to_vector = to_vector
 
 -------------------------
@@ -93,65 +89,69 @@ bombulator.utils.to_vector = to_vector
 
 -- is_objectref --
 
+--- Checks if userdata is an ObjectRef.
+--- Note: returns false if provided a LuaEntity table or a playername.
+---@param thing userdata the thing being checked
+---@return boolean true if thing is ObjectRef, false otherwise
 local function is_objectref(thing)
     return type(thing) == "userdata"
         -- note: you cannot use pcall(thing.get_pos, thing)
         -- since indexing userdata throws errors.
         and pcall(function() thing:get_pos() end)
 end
---- Checks if userdata is an ObjectRef.
---- Note: returns false if provided a LuaEntity table or a playername.
----@param thing userdata the thing being checked
----@return boolean true if thing is ObjectRef, false otherwise
 bombulator.utils.is_objectref = is_objectref
 
 -- to_objectref --
 
-local function to_objectref(thing)
-    -- handle LuaEntity tables
-    if type(thing) == "table" then thing = thing.object end
-    if type(thing) == "string" then thing = get_player_by_name(thing) end
-    return is_objectref(thing) and thing
-end
 --- Tries to get an ObjectRef from the provided thing.
 --- Handles LuaEntity tables by returning their object property.
 --- Handles strings, assuming they're playernames.
 --- WARNING: OBJECTREF MAY NOT BE VALID.
 ---@param thing userdata|table|string the thing being checked
 ---@return userdata|nil ObjectRef if one can be found, nil otherwise
+local function to_objectref(thing)
+    -- handle LuaEntity tables
+    if type(thing) == "table" then thing = thing.object end
+    if type(thing) == "string" then thing = get_player_by_name(thing) end
+    return is_objectref(thing) and thing
+end
 bombulator.utils.to_objectref = to_objectref
 
 -- to_valid_objectref --
 
-local function to_valid_objectref(thing)
-    local obj = to_objectref(thing)
-    return obj and obj:is_valid() and obj
-end
 --- Similar to to_objectref but only returns the ObjectRef if it's valid.
 --- Handles LuaEntity tables by returning their object property.
 --- Handles strings, assuming they're playernames.
 ---@param thing userdata|table|string the thing being checked
 ---@return userdata|nil ObjectRef if one can be found, nil otherwise
+local function to_valid_objectref(thing)
+    local obj = to_objectref(thing)
+    return obj and obj:is_valid() and obj
+end
 bombulator.utils.to_valid_objectref = to_valid_objectref
 
 -- position_of --
 
-local function position_of(thing)
-    if is_vector(thing) then return vector.copy(thing) end
-    local obj = to_valid_objectref(thing)
-    return obj and obj:get_pos() or vector.from_string(thing)
-end
 --- Tries to get a vector from the provided thing.
 --- Handles vectors by returning a copy of the vector.
 --- Handles ObjectRefs by returning `objectref:get_pos()`.
 --- Handles LuaEntity tables by returning `luaentity.object:get_pos()`.
 --- Handles strings by assuming they're playernames, otherwise it tries `vector.from_string(thing)`.
 ---@param thing userdata|table|string the thing whose position is to be found
----@return table|nil the vector if position was found, nil otherwise.
+---@return vector|nil the vector if position was found, nil otherwise.
+local function position_of(thing)
+    if is_vector(thing) then return vector.copy(thing) end
+    local obj = to_valid_objectref(thing)
+    return obj and obj:get_pos() or vector.from_string(thing)
+end
 bombulator.utils.position_of = position_of
 
 -- look_at --
 
+--- Looks at something
+---@param looker userdata|table|string the thing doing the looking, see `to_valid_objectref`
+---@param target userdata|table|string the thing being looked at, see `position_of`
+---@return boolean true on success, false on failure
 local function look_at(looker, target)
     local looker_obj = to_valid_objectref(looker)
     local tpos = position_of(target)
@@ -169,14 +169,14 @@ local function look_at(looker, target)
 
     return false
 end
---- Looks at something
----@param looker userdata|table|string the thing doing the looking, see `to_valid_objectref`
----@param target userdata|table|string the thing being looked at, see `position_of`
----@return boolean true on success, false on failure
 bombulator.utils.look_at = look_at
 
 -- nearly_kill --
 
+--- Sets something's hp to 1, see bombulator.utils.to_valid_objectref for valid input.
+--- Does not give error for invalid input.
+---@param thing userdata|table|string the thing being nearly killed, see `to_valid_objectref`
+---@return boolean true on success, false on failure
 local function nearly_kill(thing)
     local obj = to_valid_objectref(thing)
 
@@ -187,14 +187,15 @@ local function nearly_kill(thing)
     
     return false
 end
---- Sets something's hp to 1, see bombulator.utils.to_valid_objectref for valid input.
---- Does not give error for invalid input.
----@param thing userdata|table|string the thing being nearly killed, see `to_valid_objectref`
----@return boolean true on success, false on failure
 bombulator.utils.nearly_kill = nearly_kill
 
 -- two_shot_kill --
 
+--- Kills something in two shots.
+--- If hp == 1, then this will kill the thing.
+--- otherwise, this will set the thing's hp to 1.
+---@param thing userdata|table|string the thing being two-shotted, see `to_valid_objectref`
+---@return boolean true on success, false on failure
 local function two_shot_kill(thing)
     local obj = to_valid_objectref(thing)
 
@@ -207,32 +208,27 @@ local function two_shot_kill(thing)
 
     return false
 end
---- Kills something in two shots.
---- If hp == 1, then this will kill the thing.
---- otherwise, this will set the thing's hp to 1.
----@param thing userdata|table|string the thing being two-shotted, see `to_valid_objectref`
----@return boolean true on success, false on failure
 bombulator.utils.two_shot_kill = nearly_kill
 
 --------------------
 -- CHAT FUNCTIONS --
 --------------------
 
-local function announce_fmt(message, ...)
-    core.chat_send_all("<|3 () /\\/\\ |3 U |_ /\\ *|* () R> " .. fmt(message, ...))
-end
 --- Sends a message tagged as coming from bombulator, passes message through string.format.
 ---@param message string the message format_string
 ---@return boolean true on success, false on failure
+local function announce_fmt(message, ...)
+    core.chat_send_all("<|3 () /\\/\\ |3 U |_ /\\ *|* () R> " .. fmt(message, ...))
+end
 bombulator.utils.announce_fmt = announce_fmt
 
-local function dm_fmt(name, message, ...)
-    core.chat_send_player(name, "DM from |3 () /\\/\\ |3 U |_ /\\ *|* () R: " .. fmt(message, ...))
-end
 --- Sends a dm tagged as coming from bombulator, passes message through string.format.
 ---@param name string the name of the recipient
 ---@param message string the message format_string
 ---@return boolean true on success, false on failure
+local function dm_fmt(name, message, ...)
+    core.chat_send_player(name, "DM from |3 () /\\/\\ |3 U |_ /\\ *|* () R: " .. fmt(message, ...))
+end
 bombulator.utils.dm_fmt = dm_fmt
 
 ----------------------
@@ -241,6 +237,11 @@ bombulator.utils.dm_fmt = dm_fmt
 -- put at the bottom because it's a lot of code.
 -- decoupled in case registry-specific behaviour is needed.
 
+--- Get a random pair from an iterator.
+---@param factory function an iterator factory.
+---@param filter function|nil a function determining which entries should be selected from, gets key and value as arguments, returns true for each entry to be included.
+---@vararg any arguments to be passed to the factory function.
+---@return ...|nil a random pair returned by the next function, returns nil if next function gave no entries.
 local function iterator_random(factory, filter, ...)
     if type(factory) ~= "function" then 
         errorfmt(2, "bad argument #1 to bombulatior.utils.iterator_random(): expected function, got %s instead.", type(factory))
@@ -261,13 +262,12 @@ local function iterator_random(factory, filter, ...)
     if #temp == 0 then return end
     return unpack(temp[random(#temp)])
 end
---- Get a random pair from an iterator.
----@param factory function an iterator factory.
----@param filter function|nil a function determining which entries should be selected from, gets key and value as arguments, returns true for each entry to be included.
----@vararg any arguments to be passed to the factory function.
----@return ...|nil a random pair returned by the next function, returns nil if next function gave no entries.
 bombulator.utils.iterator_random = iterator_random
 
+--- Get a random key-value pair from a table
+---@param t table
+---@param filter function|nil a function determining which entries should be selected from, gets key and value as arguments, returns true for each entry to be included.
+---@return any, any a random key-value pair from the table.
 local function random_pair(t, filter)
     if type(t) ~= "table" then 
         errorfmt(2, "bad argument #1 to bombulatior.utils.table_random(): expected table, got %s instead.", type(t))
@@ -277,12 +277,12 @@ local function random_pair(t, filter)
 
     return iterator_random(pairs, filter, t)
 end
---- Get a random key-value pair from a table
----@param t table
----@param filter function|nil a function determining which entries should be selected from, gets key and value as arguments, returns true for each entry to be included.
----@return any, any a random key-value pair from the table.
 bombulator.utils.random_pair = random_pair
 
+--- Get a random index-value ipair from a table
+---@param t table
+---@param filter function|nil a function determining which entries should be selected from, gets key and value as arguments, returns true for each entry to be included.
+---@return number, any a random index-value pair from the table.
 local function random_ipair(t, filter)
     if type(t) ~= "table" then 
         errorfmt(2, "bad argument #1 to bombulatior.utils.table_random(): expected table, got %s instead.", type(t))
@@ -292,11 +292,7 @@ local function random_ipair(t, filter)
 
     return iterator_random(ipairs, filter, t)
 end
---- Get a random index-value ipair from a table
----@param t table
----@param filter function|nil a function determining which entries should be selected from, gets key and value as arguments, returns true for each entry to be included.
----@return number, any a random index-value pair from the table.
-bombulator.utils.random_pair = random_pair
+bombulator.utils.random_ipair = random_ipair
 
 local function chance_check(name, def)
     return def.chance and math.random() < def.chance or false
